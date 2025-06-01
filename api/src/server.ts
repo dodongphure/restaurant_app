@@ -5,16 +5,16 @@ import { appRouter } from './routers/_app';
 import { createContext } from './trpc';
 import dotenv from 'dotenv';
 
-dotenv.config(); // Load .env file
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors()); // Configure CORS as needed for your frontend
-app.use(express.json()); // To parse JSON bodies
+app.use(cors());
+app.use(express.json());
 
 app.use(
-  '/trpc', // Your tRPC endpoint prefix
+  '/trpc',
   trpcExpress.createExpressMiddleware({
     router: appRouter,
     createContext,
@@ -29,6 +29,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`🚀 Server listening at http://localhost:${port}`);
-  console.log(`💡 tRPC available at http://localhost:${port}/trpc`);
+  console.log(`Server listening at http://localhost:${port}`);
 });

@@ -1,0 +1,30 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Restaurants</h2>
+    <button class="btn btn-primary" (click)="loadRestaurants()" [disabled]="isLoading">
+      <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      {{ isLoading ? 'Loading...' : 'Reload Restaurants' }}
+    </button>
+  </div>
+
+  <div *ngIf="isLoading && restaurants.length === 0" class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    <strong>Error:</strong> {{ error }}
+  </div>
+
+  <div *ngIf="!isLoading && !error && restaurants.length === 0" class="alert alert-info" role="alert">
+    No restaurants found.
+  </div>
+
+  <ul *ngIf="!isLoading && !error && restaurants.length > 0" class="list-group">
+    <li *ngFor="let restaurant of restaurants" class="list-group-item">
+      <h5>{{ restaurant.name }}</h5>
+      <p *ngIf="restaurant.location" class="mb-0 text-muted"><small>{{ restaurant.location }}</small></p>
+    </li>
+  </ul>
+</div>

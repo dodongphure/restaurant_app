@@ -15,10 +15,10 @@ export const restaurantRouter = router({
       const { cursor } = input ?? {};
 
       const items = await ctx.prisma.restaurant.findMany({
-        take: limit + 1, // get an extra item to see if there's a next page
+        take: limit + 1,
         cursor: cursor ? { id: cursor } : undefined,
         orderBy: {
-          createdAt: 'desc', // Or by name, etc.
+          createdAt: 'desc',
         },
       });
 
