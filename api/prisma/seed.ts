@@ -27,9 +27,9 @@ const restaurantData = [
     "category": STORE_CATEGORY.SUSHI,
     "city": "tokyo",
     "desc": "Provides fresh seafood and authentic sushi.",
-    "id": "6ac3e2d1-ge98-5a29-c86a-g9cc1de2396d", // Note: "ge98" and "g9cc" are not valid hex for UUIDs, ensure your actual IDs are valid.
+    "id": "6ac3e2d1-ge98-5a29-c86a-g9cc1de2396d",
     "images": [
-      "https://images.unsplash.com/photo-1547592180-2f1a1b3c3b68?q=80&w=1887&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=2340&auto=format&fit=crop"
     ],
     "name": "Sushi Ginza Ishikawa",
     "price_range": "4~6",
@@ -45,7 +45,7 @@ const restaurantData = [
     "category": STORE_CATEGORY.RAMEN,
     "city": "kyoto",
     "desc": "Rich broth with a variety of toppings.",
-    "id": "7bd4f3e2-hf98-6b39-d87b-h0dd2ee2397e", // Note: "hf98", "h0dd" are not valid hex for UUIDs
+    "id": "7bd4f3e2-hf98-6b39-d87b-h0dd2ee2397e",
     "images": [
       "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?q=80&w=1887&auto=format&fit=crop"
     ],
@@ -63,9 +63,9 @@ const restaurantData = [
     "category": STORE_CATEGORY.TEMPURA,
     "city": "nagoya",
     "desc": "Crispy and delicious tempura.",
-    "id": "8ce5g4f3-jg09-7c40-e98c-i1ee3ff3408f", // Note: "g4f3", "jg09", "i1ee" are not valid hex
+    "id": "8ce5g4f3-jg09-7c40-e98c-i1ee3ff3408f",
     "images": [
-      "https://images.unsplash.com/photo-1604908177732-40aa343c3f2b?q=80&w=1887&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?q=80&w=2274&auto=format&fit=crop"
     ],
     "name": "Tempura Matsuya",
     "price_range": "3~5",
@@ -78,12 +78,12 @@ const restaurantData = [
   {
     "rating": 4.6,
     "rating_count": 190,
-    "category": STORE_CATEGORY.SOBA, // Or STORE_CATEGORY.UDON if that's more appropriate for "Udon Taro"
+    "category": STORE_CATEGORY.SOBA,
     "city": "fukuoka",
     "desc": "Chewy noodles with rich broth.",
-    "id": "9df6h5g4-kh10-8d41-f09d-j2ff4gg4519g", // Note: "h5g4", "kh10", "gg45" are not valid hex
+    "id": "9df6h5g4-kh10-8d41-f09d-j2ff4gg4519g",
     "images": [
-      "https://images.unsplash.com/photo-1570544826585-8dd0cf1d2aa8?q=80&w=1887&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=2274&auto=format&fit=crop"
     ],
     "name": "Udon Taro",
     "price_range": "2~4",
@@ -99,17 +99,18 @@ async function main() {
   console.log('Start seeding ...');
 
   for (const r of restaurantData) {
+    const { featured, ...restaurantDetails } = r;
     const restaurant = await prisma.restaurant.upsert({
       where: { id: r.id },
       update: {
-        ...r,
-        featuredText: r.featured?.text,
-        featuredIcon: r.featured?.icon,
+        ...restaurantDetails,
+        featuredText: featured.text,
+        featuredIcon: featured.icon,
       },
       create: {
-        ...r,
-        featuredText: r.featured?.text,
-        featuredIcon: r.featured?.icon,
+        ...restaurantDetails,
+        featuredText: featured.text,
+        featuredIcon: featured.icon,
       },
     });
     console.log(`Upserted restaurant: ${restaurant.name} (ID: ${restaurant.id})`);

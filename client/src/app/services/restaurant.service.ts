@@ -12,4 +12,11 @@ export class RestaurantService {
     const result = await this.trpcService.client.restaurant.getRestaurants.query({});
     return result.items;
   }
+
+  async updateFavoriteStatus(restaurantId: string, isFavorite: boolean): Promise<void> {
+    await this.trpcService.client.restaurant.setFavoriteStatus.mutate({
+      restaurantId: restaurantId,
+      isFavorite: isFavorite,
+    });
+  }
 }

@@ -1,4 +1,4 @@
-<div class="container mt-4">
+<div class="container mt-4 mb-4 px-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2>Restaurants</h2>
     <button class="btn btn-primary" (click)="loadRestaurants()" [disabled]="isLoading">
@@ -21,10 +21,44 @@
     No restaurants found.
   </div>
 
-  <ul *ngIf="!isLoading && !error && restaurants.length > 0" class="list-group">
-    <li *ngFor="let restaurant of restaurants" class="list-group-item">
-      <h5>{{ restaurant.name }}</h5>
-      <p *ngIf="restaurant.location" class="mb-0 text-muted"><small>{{ restaurant.location }}</small></p>
-    </li>
-  </ul>
+  <!-- Restaurant card grid -->
+  <div *ngIf="!isLoading && !error && restaurants.length > 0"
+    class="row row-cols-1 row-cols-sm-2 row-cols-md-3 gy-4 gx-0 gx-sm-4">
+    <div *ngFor="let restaurant of restaurants" class="col d-flex align-items-stretch">
+      <div class="card rounded-4 shadow-sm">
+        <div class="position-relative">
+          <img [src]="restaurant.images[0]" class="card-img-top rounded-4" [alt]="restaurant.name">
+
+          <button class="btn btn-light position-absolute top-0 end-0 m-2 p-2 rounded-circle shadow-sm"
+            (click)="toggleFavorite(restaurant)" [attr.aria-pressed]="restaurant.isFavorite"
+            title="{{ restaurant.isFavorite ? 'Remove from favorites' : 'Add to favorites' }}">
+            <span [class.text-danger]="restaurant.isFavorite" [class.text-muted]="!restaurant.isFavorite">
+              {{restaurant.isFavorite ? '❤️' : '❤︎'}}
+            </span>
+          </button>
+        </div>
+
+        <div class="text-warning-emphasis top-0 start-0 m-2 px-1 py-1 small">
+          ✨ {{restaurant.featuredText}}
+        </div>
+
+        <div class="card-body pt-0 pb-2">
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <h5 class="card-title fw-semibold mb-0 text-truncate">{{restaurant.name}}</h5>
+            <div class="d-flex align-items-center text-muted small">
+              <span class="text-warning me-1 fs-6">★</span>
+              <span class="me-1 fw-semibold">{{restaurant.rating}}</span>
+              <span>({{restaurant.rating_count}})</span>
+            </div>
+          </div>
+          <p class="card-text small text-muted mb-1 mt-1">
+            {{restaurant.desc}}
+          </p>
+          <p class="card-text small text-body-secondary">
+            <strong>{{restaurant.city | uppercase}}</strong> · {{restaurant.category}} · {{restaurant.price_range}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

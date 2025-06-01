@@ -24,7 +24,7 @@ export const restaurantRouter = router({
 
       let nextCursor: typeof cursor | undefined = undefined;
       if (items.length > limit) {
-        const nextItem = items.pop(); // remove the extra item
+        const nextItem = items.pop();
         nextCursor = nextItem!.id;
       }
 
@@ -37,7 +37,7 @@ export const restaurantRouter = router({
   setFavoriteStatus: publicProcedure
     .input(
       z.object({
-        restaurantId: z.string().uuid({ message: "Invalid restaurant ID format. Expected UUID." }),
+        restaurantId: z.string(),
         isFavorite: z.boolean(),
       })
     )
